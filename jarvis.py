@@ -5,6 +5,9 @@ import wikipedia  # pip install wikipedia
 import smtplib
 import webbrowser as wb
 import os
+import pyautogui #pip install pyautog
+import psutil #pip install psutil
+import pyjokes #pip install pyjokes
 
 # define variable name engine
 engine = pyttsx3.init()
@@ -55,7 +58,7 @@ def wishme():
     else:
         speak("Good night")
 
-    speak("Hamza at your service. How I can help you ?")
+    speak("Yassir at your service. How I can help you ?")
 
 
 # wishme()
@@ -89,6 +92,19 @@ def sendmail(to, content):
     server.sendmail("text@gmail.com", to, content)
     server.close()
 
+def screenshot():
+    img = pyautogui.screenshot();
+    img.save("D:\images\ss.png")
+
+def cpu():
+    usage =str(psutil.cpu_percent)
+    speak("CPU is at "+usage)
+    battery=psutil.sensors_battery()
+    speak("battery is at")
+    speak(battery.percent)
+
+def jokes():
+    speak(pyjokes.get_joke())
 
 
 # The main function
@@ -154,7 +170,20 @@ if __name__ == "__main__":
             remember = open("data.txt","w")
             remember.write(data)
             remember.close()
+
         # Reminder function
         elif "do you know anything" in query:
             remember = open("data.txt", "r")
             speak("you said me to remember that"+remember.read())
+
+        # screenshot commande
+        elif "screenshot" in query:
+            screenshot()
+            speak("Done!")
+
+        #cpu & battery
+        elif "cpu" in query:
+            cpu()
+        # jokes function
+        elif "joke" in query:
+            jokes()
